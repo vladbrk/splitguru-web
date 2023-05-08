@@ -1,11 +1,13 @@
 import React from 'react'
-import { Navbar, Nav, Container, Badge } from 'react-bootstrap'
+import { Navbar, Nav, Container, Badge, Button } from 'react-bootstrap'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import logo from '../img/split_guru_pt_small_logo.png';
 
 import Person from '../store/reducers/Person'
 import Room from '../store/reducers/Room'
+import axios from 'axios'
+import { baseUrl } from '../settings/index'
 
 
 const Menu = () : JSX.Element => {
@@ -13,6 +15,16 @@ const Menu = () : JSX.Element => {
     const user: Person = useSelector((state: any) => state.receipt.user)
     const room: Room = useSelector((state: any) => state.receipt.room)
     const navigate = useNavigate();
+
+    const generatePin = async () => {
+        const { data } = await axios.get(baseUrl + '/api/room/' + room.id + '/share',
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+        alert("Pin : " + data)
+    }
 
     return (<>
         <Navbar bg='light' expand='lg'>
@@ -47,8 +59,11 @@ const Menu = () : JSX.Element => {
                 </Badge>
                 <span>&nbsp;</span>
                 <Badge bg="info">
-                    <div style={{fontSize: '9px', textAlign: 'left', color: '#3A424C'}}>room.room</div>
+                    <div style={{fontSize: '9px', textAlign: 'left', color: '#3A424C'}}>room</div>
                     <div>{ room.room }</div>
+                    <Button variant="outline-primary"
+                        size="sm"
+                        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => generatePin()}>Share</Button>
                 </Badge>
             </Container>
         </Navbar>

@@ -35,23 +35,19 @@ const Entry = () : JSX.Element => {
     }
 
     const enterRoom = async () => {
-        // TODO enterByPin
-        /*try {
-            const { data } = await axios.get(baseUrl + "/api/room/check/" + pin,
+        try {
+            const { data } = await axios.get(baseUrl + "/api/room/by_pin/" + pin,
                 {
                     headers: {
                         "Content-Type": "application/json"
                     }
                 })
-            if (data.success) {
-                setRoom(pin)
-                navigate("/login")
-            } else {
-                alert("Room not found");
-            }
+            setRoom(data)
+            navigate("/login")
         } catch(e) {
+            alert("Room not found");  // TODO make it better
             console.error(e)
-        }*/
+        }
     }
 
     return (
