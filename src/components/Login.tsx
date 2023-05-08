@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Button, Form, Stack, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useActions } from '../hooks/useActions'
@@ -76,8 +76,71 @@ const Login = () : JSX.Element => {
                 onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => saveName()}>Enter</Button>
             </Stack>
         </Container>
+
+        <ExistedMembers/>
         </>
     )
+}
+
+const ExistedMembers = () : JSX.Element => {
+
+    const [members, setMembers] = useState(new Array<Person>())
+    const { updateUser } = useActions()
+    const navigate = useNavigate()
+    const room: string = useSelector((state: any) => state.receipt.room)
+
+    useEffect(() => {
+        findMembersByGlobalSession()
+    }, [])
+
+
+    const chooseUser = (user?: Person) => {
+        if (user != undefined) {
+            updateUser(user)
+            navigate("/bill/receipt")
+        }
+    }
+
+    const findMembersByGlobalSession = async () => {
+        try {
+            const { data } = await axios.get(baseUrl + "/api/" + room + "/members/find_by_global_session",
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+
+            setMembers(data)
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
+
+    const renderHeader = () : JSX.Element => {
+        return (
+            <div>
+                <h4 style={{color: '#3A424C', marginBottom: '-5px'}}>Found participants</h4>
+                <div style={{fontSize: '14px'}}>Choose one if you want continue</div>
+            </div>
+        )
+    }
+
+    return (<>
+
+        <Container style={{marginTop: '50px'}}>
+            <Stack gap={3} className="col-md-2 mx-auto">
+                { members.length > 0 ? renderHeader() : null}
+                { members.map((member: Person, index: any) =>
+                    <Button  key={ index }
+                        type="button"
+                        size="sm"
+                        variant="outline-primary"
+                        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => chooseUser(member)}>{ member.name }</Button>
+                )}
+            </Stack>
+        </Container>
+    </>)
 }
 
 export default Login
