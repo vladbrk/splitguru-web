@@ -17,31 +17,26 @@ const Entry = () : JSX.Element => {
 
     const createRoom = async () => {
         try {
-            const { data } = await axios.get(baseUrl + "/api/room/check/" + pin,
-                {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-            if (data.success) {
-                alert("Room already exist! Enter other name");
-            } else {
-                await axios.get(baseUrl + "/api/room/create/" + pin,
+                let r = new Room()
+                r.id = ''
+                r.room = pin
+                let { data } = await axios.post(baseUrl + "/api/room/create",
+                    JSON.stringify(r),
                     {
                         headers: {
                             "Content-Type": "application/json"
                         }
                     })
-                setRoom(pin)
+                setRoom(data)
                 navigate("/login")
-            }
         } catch(e) {
             console.error(e)
         }
     }
 
     const enterRoom = async () => {
-        try {
+        // TODO enterByPin
+        /*try {
             const { data } = await axios.get(baseUrl + "/api/room/check/" + pin,
                 {
                     headers: {
@@ -56,7 +51,7 @@ const Entry = () : JSX.Element => {
             }
         } catch(e) {
             console.error(e)
-        }
+        }*/
     }
 
     return (
@@ -115,9 +110,9 @@ const ExistedRooms = () : JSX.Element => {
     }, [])
 
 
-    const chooseRoom = (roomName?: string) => {
-        if (roomName != undefined) {
-            setRoom(roomName)
+    const chooseRoom = (room?: Room) => {
+        if (room != undefined) {
+            setRoom(room)
             navigate("/login")
         }
     }
@@ -141,7 +136,7 @@ const ExistedRooms = () : JSX.Element => {
     const renderHeader = () : JSX.Element => {
         return (
             <div>
-                <h4 style={{color: '#3A424C', marginBottom: '-5px'}}>Found your room</h4>
+                <h4 style={{color: '#3A424C', marginBottom: '-5px'}}>Last roomr</h4>
                 <div style={{fontSize: '14px'}}>Choose one if you want continue</div>
             </div>
         )
@@ -157,7 +152,7 @@ const ExistedRooms = () : JSX.Element => {
                         type="button"
                         size="sm"
                         variant="outline-primary"
-                        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => chooseRoom(room.room)}>{ room.room }</Button>
+                        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => chooseRoom(room)}>{ room.room }</Button>
                 )}
             </Stack>
         </Container>

@@ -6,6 +6,7 @@ import Product from '../store/reducers/Product'
 import Person from '../store/reducers/Person'
 import Settlement from '../store/reducers/Settlement'
 import Debt from '../store/reducers/Debt'
+import Room from '../store/reducers/Room'
 import { Container, Row, Col, Table, Button, Form, Badge, Navbar, Nav, Accordion, Alert, Modal} from 'react-bootstrap'
 import {
   StompSessionProvider,
@@ -30,17 +31,17 @@ const Receipt = () : JSX.Element => {
     const products: Array<Product> = useSelector((state: any) => state.receipt.products)
     const members: Array<Person> = useSelector((state: any) => state.receipt.members)
     const user: Person = useSelector((state: any) => state.receipt.user)
-    const room: string = useSelector((state: any) => state.receipt.room)
+    const room: Room = useSelector((state: any) => state.receipt.room)
 
-    useSubscription("/topic/" + room + "/members", (message) => {
+    useSubscription("/topic/" + room.id + "/members", (message) => {
         updateMembers(JSON.parse(message.body))
     });
 
-    useSubscription("/topic/" + room + "/products", (message) => {
+    useSubscription("/topic/" + room.id + "/products", (message) => {
         updateProducts(JSON.parse(message.body))
     });
 
-    useSubscription("/topic/" + room + "/receipt/calculate", (message) => {
+    useSubscription("/topic/" + room.id + "/receipt/calculate", (message) => {
         setSettlement(JSON.parse(message.body))
     });
 
@@ -52,7 +53,7 @@ const Receipt = () : JSX.Element => {
 
     const initMembers = async () => {
         try {
-            const { data } = await axios.get(baseUrl + '/api/room/' + room + '/members',
+            const { data } = await axios.get(baseUrl + '/api/room/' + room.id + '/members',
                 {
                     headers: {
                         "Content-Type": "application/json"
@@ -66,7 +67,7 @@ const Receipt = () : JSX.Element => {
 
     const initProducts = async () => {
         try {
-            const { data } = await axios.get(baseUrl + '/api/room/' + room + '/products',
+            const { data } = await axios.get(baseUrl + '/api/room/' + room.id + '/products',
                 {
                     headers: {
                         "Content-Type": "application/json"
@@ -80,7 +81,7 @@ const Receipt = () : JSX.Element => {
 
     const initSettlement = async () => {
             try {
-                const { data } = await axios.get(baseUrl + '/api/room/' + room + '/settlement/calculate',
+                const { data } = await axios.get(baseUrl + '/api/room/' + room.id + '/settlement/calculate',
                     {
                         headers: {
                             "Content-Type": "application/json"
@@ -114,7 +115,7 @@ const Receipt = () : JSX.Element => {
 
         if(stompClient != undefined && stompClient.connected) {
              stompClient.publish({
-               destination: '/app/' + room +'/addproduct',
+               destination: '/app/' + room.id +'/addproduct',
                body: JSON.stringify(product)
              });
           }
@@ -160,7 +161,7 @@ const Receipt = () : JSX.Element => {
 
         if(stompClient != undefined && stompClient.connected) {
              stompClient.publish({
-               destination: '/app/' + room +'/product/update',
+               destination: '/app/' + room.id +'/product/update',
                body: JSON.stringify(product)
              });
           }
@@ -179,7 +180,7 @@ const Receipt = () : JSX.Element => {
 
         if(stompClient != undefined && stompClient.connected) {
              stompClient.publish({
-               destination: '/app/' + room +'/product/update',
+               destination: '/app/' + room.id +'/product/update',
                body: JSON.stringify(product)
              });
           }

@@ -5,12 +5,13 @@ import { useSelector } from 'react-redux'
 import logo from '../img/split_guru_pt_small_logo.png';
 
 import Person from '../store/reducers/Person'
+import Room from '../store/reducers/Room'
 
 
 const Menu = () : JSX.Element => {
 
     const user: Person = useSelector((state: any) => state.receipt.user)
-    const room: string = useSelector((state: any) => state.receipt.room)
+    const room: Room = useSelector((state: any) => state.receipt.room)
     const navigate = useNavigate();
 
     return (<>
@@ -46,8 +47,8 @@ const Menu = () : JSX.Element => {
                 </Badge>
                 <span>&nbsp;</span>
                 <Badge bg="info">
-                    <div style={{fontSize: '9px', textAlign: 'left', color: '#3A424C'}}>room</div>
-                    <div>{ room }</div>
+                    <div style={{fontSize: '9px', textAlign: 'left', color: '#3A424C'}}>room.room</div>
+                    <div>{ room.room }</div>
                 </Badge>
             </Container>
         </Navbar>

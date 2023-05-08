@@ -1,6 +1,7 @@
 import Product from '../reducers/Product'
 import Person from '../reducers/Person'
 import Settlement from '../reducers/Settlement'
+import Room from '../reducers/Room'
 
 export const addProduct = (product: Product) => {
     return (dispatch: any) => {
@@ -38,7 +39,7 @@ export const setSettlement = (settlement: Settlement) => {
     }
 }
 
-export const setRoom = (room: string) => { //delete username
+export const setRoom = (room: Room) => { //delete username
     return (dispatch: any) => {
         dispatch({type: "SET_ROOM", room: room})
     }

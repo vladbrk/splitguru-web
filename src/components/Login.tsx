@@ -8,13 +8,14 @@ import logo from '../img/split_guru_pt_small_logo.png';
 import { baseUrl } from '../settings/index'
 
 import Person from '../store/reducers/Person'
+import Room from '../store/reducers/Room'
 
 const Login = () : JSX.Element => {
 
     const navigate = useNavigate()
 
     const user: Person = useSelector((state: any) => state.receipt.user)
-    const room: string = useSelector((state: any) => state.receipt.room)
+    const room: Room = useSelector((state: any) => state.receipt.room)
 
     const [name, setName] = useState("")
 
@@ -23,7 +24,7 @@ const Login = () : JSX.Element => {
     const saveName = async () => {
         user.name = name
         try {
-            let { data } = await axios.post(baseUrl + "/api/room/" + room + "/member/add",
+            let { data } = await axios.post(baseUrl + "/api/room/" + room.id + "/member/add",
                 JSON.stringify(user),
                 {
                     headers: {
@@ -87,7 +88,7 @@ const ExistedMembers = () : JSX.Element => {
     const [members, setMembers] = useState(new Array<Person>())
     const { updateUser } = useActions()
     const navigate = useNavigate()
-    const room: string = useSelector((state: any) => state.receipt.room)
+    const room: Room = useSelector((state: any) => state.receipt.room)
 
     useEffect(() => {
         findMembersByGlobalSession()
@@ -103,7 +104,7 @@ const ExistedMembers = () : JSX.Element => {
 
     const findMembersByGlobalSession = async () => {
         try {
-            const { data } = await axios.get(baseUrl + "/api/" + room + "/members/find_by_global_session",
+            const { data } = await axios.get(baseUrl + "/api/" + room.id + "/members/find_by_global_session",
                 {
                     headers: {
                         "Content-Type": "application/json"
@@ -120,7 +121,7 @@ const ExistedMembers = () : JSX.Element => {
     const renderHeader = () : JSX.Element => {
         return (
             <div>
-                <h4 style={{color: '#3A424C', marginBottom: '-5px'}}>Found participants</h4>
+                <h4 style={{color: '#3A424C', marginBottom: '-5px'}}>Last users</h4>
                 <div style={{fontSize: '14px'}}>Choose one if you want continue</div>
             </div>
         )

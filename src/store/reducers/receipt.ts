@@ -1,6 +1,7 @@
 import Product from './Product'
 import Person from './Person'
 import Debt from './Debt'
+import Room from './Room'
 import Settlement from './Settlement'
 
 enum ReceiptActionType {
@@ -25,7 +26,7 @@ export interface ReceiptAction {
     products : Array<Product>,
     member: Person,
     members: Array<Person>,
-    room: string,
+    room: Room,
     settlement: Settlement
 }
 
@@ -33,7 +34,7 @@ export interface ReceiptState {
     user: Person,
     members: Array<Person>,
     products : Array<Product>,
-    room: string,
+    room: Room,
     settlement: Settlement,
     userSettlement: Settlement
 }
@@ -46,7 +47,7 @@ const initialState: ReceiptState = {
     members: [],
     //products: [new Product('1', 'Apple', 15, [members[0], members[2]], [members[0], members[1], members[2]]), new Product('2', 'Coffee', 20, [members[1]], [members[0], members[1]])]
     products: [],
-    room: '',
+    room: new Room(),
     settlement: new Settlement(),
     userSettlement: new Settlement()
 }
@@ -108,7 +109,12 @@ const receipt = (state: ReceiptState = initialState, action: ReceiptAction) : Re
         }
 
         case ReceiptActionType.SET_ROOM : {
-            state.room = action.room
+            let r = new Room();
+            r.id = action.room.id
+            r.room = action.room.room
+            console.log("ROOM ACTION " + JSON.stringify(action.room))
+            state.room = r
+            console.log("ROOM STATE " + JSON.stringify(state.room))
             return {...state}
         }
 
