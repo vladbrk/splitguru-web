@@ -7,6 +7,7 @@ import Person from '../store/reducers/Person'
 import Settlement from '../store/reducers/Settlement'
 import Debt from '../store/reducers/Debt'
 import Room from '../store/reducers/Room'
+import EditPosition from './EditPosition'
 import { Container, Row, Col, Table, Button, Form, Badge, Navbar, Nav, Accordion, Alert, Modal} from 'react-bootstrap'
 import {
   StompSessionProvider,
@@ -20,6 +21,7 @@ const Receipt = () : JSX.Element => {
 
     const [showAlert, setShowAlert] = useState(true)
     const [showModal, setShowModal] = useState(false)
+    const [selectedProductId, setSelectedProductId] = useState('')
     const [newProductName, setNewProductName] = useState('')
     const [newProductPrice, setNewProductPrice] = useState('')
 
@@ -194,12 +196,13 @@ const Receipt = () : JSX.Element => {
     }
 
     const showEditProductModal = (p: Product) => {
+        setSelectedProductId(p.id || '')
         setShowModal(true)
     }
 
     const handleCloseEditProductModal = () => {
-            setShowModal(false)
-        }
+        setShowModal(false)
+    }
 
     return (<>
 
@@ -241,7 +244,7 @@ const Receipt = () : JSX.Element => {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                                <th>Prodcut</th>
+                                <th>Product</th>
                                 <th>Price</th>
                                 <th>Payers</th>
                                 <th>Consumers</th>
@@ -297,39 +300,7 @@ const Receipt = () : JSX.Element => {
 
         <UserSettlementTable/>
 
-        <Modal show={showModal}  onHide={() => handleCloseEditProductModal()}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Edit item</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label>Product Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Product Name"
-                        autoFocus
-                      />
-                    </Form.Group>
-                    <Form.Group
-                      className="mb-3"
-                      controlId="exampleForm.ControlTextarea1"
-                    >
-                      <Form.Label>Price</Form.Label>
-                      <Form.Control type="text" placeholder="Price" />
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleCloseEditProductModal()}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleCloseEditProductModal()}>
-                    Save Changes
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-
+        <EditPosition show={showModal} id={selectedProductId} onHide={() => handleCloseEditProductModal()} />
 
     </>)
 }

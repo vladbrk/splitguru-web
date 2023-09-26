@@ -132,7 +132,7 @@ const ExistedRooms = () : JSX.Element => {
     const renderHeader = () : JSX.Element => {
         return (
             <div>
-                <h4 style={{color: '#3A424C', marginBottom: '-5px'}}>Last roomr</h4>
+                <h4 style={{color: '#3A424C', marginBottom: '-5px'}}>Last rooms</h4>
                 <div style={{fontSize: '14px'}}>Choose one if you want continue</div>
             </div>
         )

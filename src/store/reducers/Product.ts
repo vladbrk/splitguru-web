@@ -7,7 +7,7 @@ export default class Product {
     payers?: Array<Person>
     consumers?: Array<Person>
 
-    constructor(id: string, name: string, price: number, payers: Array<Person>, consumers: Array<Person>) {
+    constructor(id?: string, name?: string, price?: number, payers?: Array<Person>, consumers?: Array<Person>) {
         this.id = id
         this.name = name
         this.price = price
