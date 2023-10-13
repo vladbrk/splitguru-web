@@ -8,13 +8,14 @@ import Person from '../store/reducers/Person'
 import Room from '../store/reducers/Room'
 import axios from 'axios'
 import { baseUrl } from '../settings/index'
-
+import { useTranslation } from 'react-i18next'
 
 const Menu = () : JSX.Element => {
 
     const user: Person = useSelector((state: any) => state.receipt.user)
     const room: Room = useSelector((state: any) => state.receipt.room)
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
 
     const generatePin = async () => {
         const { data } = await axios.get(baseUrl + '/api/room/' + room.id + '/share',
@@ -24,6 +25,10 @@ const Menu = () : JSX.Element => {
                 }
             })
         alert("Pin : " + data)
+    }
+
+    const changeLang = (lang: string) => {
+        i18n.changeLanguage(lang)
     }
 
     return (<>
@@ -48,9 +53,9 @@ const Menu = () : JSX.Element => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link onClick={() => { navigate("/bill/receipt") }}>Bill</Nav.Link>
-                        <Nav.Link onClick={() => { navigate("/bill/settlement") }}>Settlement</Nav.Link>
-                        <Nav.Link onClick={() => { navigate("/bill/members") }}>Members</Nav.Link>
+                        <Nav.Link onClick={() => { navigate("/bill/receipt") }}>{t("menu.bill")}</Nav.Link>
+                        <Nav.Link onClick={() => { navigate("/bill/settlement") }}>{t("menu.settlement")}</Nav.Link>
+                        <Nav.Link onClick={() => { navigate("/bill/members") }}>{t("menu.members")}</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                 <Badge bg="info">
@@ -65,6 +70,9 @@ const Menu = () : JSX.Element => {
                         size="sm"
                         onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => generatePin()}>Share</Button>
                 </Badge>
+
+                    <Button variant="outline-primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => changeLang('ru')}>Рус</Button>
+                    <Button variant="outline-primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => changeLang('en')}>En</Button>
             </Container>
         </Navbar>
         <Outlet/>

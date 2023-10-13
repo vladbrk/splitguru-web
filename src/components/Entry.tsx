@@ -7,6 +7,7 @@ import { useActions } from '../hooks/useActions'
 import logo from '../img/split_guru_pt_small_logo.png';
 import { baseUrl } from '../settings/index'
 import Room from '../store/reducers/Room'
+import { useTranslation } from 'react-i18next'
 
 const Entry = () : JSX.Element => {
 
@@ -14,6 +15,7 @@ const Entry = () : JSX.Element => {
     const navigate = useNavigate()
 
     const { setRoom } = useActions()
+    const { t, i18n } = useTranslation()
 
     const createRoom = async () => {
         try {
@@ -50,6 +52,10 @@ const Entry = () : JSX.Element => {
         }
     }
 
+    const changeLang = (lang: string) => {
+        i18n.changeLanguage(lang)
+    }
+
     return (
         <>
             <Container >
@@ -71,20 +77,23 @@ const Entry = () : JSX.Element => {
                             </div>
                         </div>
                     </Col>
-                    <Col xs lg="2"></Col>
+                    <Col xs lg="2">
+                        <Button variant="outline-primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => changeLang('ru')}>Рус</Button>
+                        <Button variant="outline-primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => changeLang('en')}>En</Button>
+                    </Col>
                 </Row>
             </Container>
 
             <Container style={{marginTop: '50px'}}>
                 <Stack gap={3} className="col-md-2 mx-auto">
 
-                        <h3 style={{color: '#3A424C', marginBottom: '-5px'}}>Choose room</h3>
+                        <h3 style={{color: '#3A424C', marginBottom: '-5px'}}>{t("entry.h.choose_room")}</h3>
                         <Form.Control type="text"
-                            placeholder="New room name or PIN"
+                            placeholder={t("entry.p.enter_room")}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPin(e.target.value)}/>
                         <Button variant="success"
-                            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => createRoom()}>New Room</Button>
-                        <Button onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => enterRoom()}>Enter by PIN</Button>
+                            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => createRoom()}>{t('entry.new_room')}</Button>
+                        <Button onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => enterRoom()}>{t('entry.enter_by_pin')}</Button>
                 </Stack>
             </Container>
 
@@ -100,6 +109,8 @@ const ExistedRooms = () : JSX.Element => {
     const [rooms, setRooms] = useState(new Array<Room>())
     const { setRoom } = useActions()
     const navigate = useNavigate()
+
+    const { t } = useTranslation()
 
     useEffect(() => {
         findRoomByGlobalSession()
@@ -132,8 +143,8 @@ const ExistedRooms = () : JSX.Element => {
     const renderHeader = () : JSX.Element => {
         return (
             <div>
-                <h4 style={{color: '#3A424C', marginBottom: '-5px'}}>Last rooms</h4>
-                <div style={{fontSize: '14px'}}>Choose one if you want continue</div>
+                <h4 style={{color: '#3A424C', marginBottom: '-5px'}}>{t("entry.h.last_rooms")}</h4>
+                <div style={{fontSize: '14px'}}>{t("entry.h.choose_existed_room")}</div>
             </div>
         )
     }

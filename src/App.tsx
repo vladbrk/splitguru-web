@@ -11,6 +11,7 @@ import Menu from './components/Menu'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { StompSessionProvider } from "react-stomp-hooks";
 import { baseUrl } from './settings/index'
+import './i18n/config';
 
 function App() {
     return (

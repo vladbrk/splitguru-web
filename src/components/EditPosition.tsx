@@ -3,7 +3,7 @@ import Product from '../store/reducers/Product'
 import axios from 'axios'
 import { baseUrl } from '../settings/index'
 import { Container, Row, Col, Table, Button, Form, Badge, Navbar, Nav, Accordion, Alert, Modal} from 'react-bootstrap'
-
+import { useTranslation } from 'react-i18next'
 
 
 const EditPosition = ({show = false, id = '', onHide = () => { }}) : JSX.Element => {
@@ -13,6 +13,8 @@ const EditPosition = ({show = false, id = '', onHide = () => { }}) : JSX.Element
     const [product, setProduct] = useState(new Product())
 
     const [showModal, setShowModal] = useState(false)
+
+    const { t } = useTranslation()
 
     useEffect(() => {
         getProduct()
@@ -25,7 +27,6 @@ const EditPosition = ({show = false, id = '', onHide = () => { }}) : JSX.Element
     }
 
     const getProduct = async () => {
-        console.log("GET_PRODUCT show: " + show + ' id ' + id)
         try {
             const { data } = await axios.get(baseUrl + '/api/product/' + id,
                 {
@@ -62,15 +63,15 @@ const EditPosition = ({show = false, id = '', onHide = () => { }}) : JSX.Element
     return (<>
         <Modal show={showModal}  onHide={() => handleCloseEditProductModal()}>
             <Modal.Header closeButton>
-              <Modal.Title>Edit item</Modal.Title>
+              <Modal.Title>{t("edit_position.h.edit_item")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label>Product Name</Form.Label>
+                  <Form.Label>{t("edit_position.product_name")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Product Name"
+                    placeholder={t("edit_position.product_name")}
                     autoFocus
                     value={ name }
                     onChange={(e: React.ChangeEvent<HTMLInputElement>)  => setName(e.target.value)}
@@ -80,10 +81,10 @@ const EditPosition = ({show = false, id = '', onHide = () => { }}) : JSX.Element
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
-                  <Form.Label>Price</Form.Label>
+                  <Form.Label>{t("edit_position.price")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Price"
+                    placeholder={t("edit_position.price")}
                     value={ price }
                     onChange={(e: React.ChangeEvent<HTMLInputElement>)  => setPrice(e.target.value)}/>
                 </Form.Group>
@@ -91,10 +92,10 @@ const EditPosition = ({show = false, id = '', onHide = () => { }}) : JSX.Element
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleCloseEditProductModal()}>
-                Close
+                {t("edit_position.close")}
               </Button>
               <Button variant="primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => saveChanges()}>
-                Save Changes
+                {t("edit_position.save_changes")}
               </Button>
             </Modal.Footer>
         </Modal>

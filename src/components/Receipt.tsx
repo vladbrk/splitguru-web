@@ -16,6 +16,7 @@ import {
 } from "react-stomp-hooks";
 import axios from 'axios'
 import { baseUrl } from '../settings/index'
+import { useTranslation } from 'react-i18next'
 
 const Receipt = () : JSX.Element => {
 
@@ -29,6 +30,7 @@ const Receipt = () : JSX.Element => {
 
     const dispatch = useDispatch()
     const { addProduct, updateProducts, setUserName, addMember, updateUser, updateMembers, setSettlement } = bindActionCreators(actionCreators, dispatch)
+    const { t } = useTranslation()
 
     const products: Array<Product> = useSelector((state: any) => state.receipt.products)
     const members: Array<Person> = useSelector((state: any) => state.receipt.members)
@@ -228,11 +230,11 @@ const Receipt = () : JSX.Element => {
                     </Container>*/}
 
                     <Container>
-                    <h1 style={{marginTop: '20px'}}>Bill</h1>
+                    <h1 style={{marginTop: '20px'}}>{t("receipt.h.bill")}</h1>
                     <Alert show={showAlert} variant="success">
-                        <Alert.Heading>Add new item</Alert.Heading>
+                        <Alert.Heading>{t("receipt.alert.h.add_new_item")}</Alert.Heading>
                         <p>
-                          Add new item to the bill, that price you want to split with your friends
+                            {t("receipt.alert.c.add_new_item")}
                         </p>
                         <hr />
                         <div className="d-flex justify-content-end">
@@ -244,12 +246,10 @@ const Receipt = () : JSX.Element => {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Payers</th>
-                                <th>Consumers</th>
-                                {/*<th></th>
-                                <th></th>*/}
+                                <th>{t("receipt.table.h.product")}</th>
+                                <th>{t("receipt.table.h.price")}</th>
+                                <th>{t("receipt.table.h.payers")}</th>
+                                <th>{t("receipt.table.h.consumers")}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -260,8 +260,6 @@ const Receipt = () : JSX.Element => {
                                     <td>{ p.price }</td>
                                     <td>{ toString(p.payers)} {action(p, user, true) }</td>
                                     <td>{ toString(p.consumers)} {action(p, user, false) }</td>
-                                    {/*<td><Button variant="danger">Eat</Button></td>
-                                    <td><Button variant="warning">Pay</Button></td>*/}
                                 </tr>
                             )
                         })}
@@ -270,29 +268,27 @@ const Receipt = () : JSX.Element => {
                                     <Form.Floating>
                                         <Form.Control id="productName"
                                             type="text"
-                                            placeholder="Product name"
+                                            placeholder={t("receipt.table.p.product_name")}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>)  => setNewProductName(e.target.value)}/>
-                                        <label htmlFor="productName">Product name</label>
+                                        <label htmlFor="productName">{t("receipt.table.p.product_name")}</label>
                                     </Form.Floating>
                                 </td><td>
                                     <Form.Floating>
                                         <Form.Control id="productPrice"
                                             type="text"
-                                            placeholder="Price"
+                                            placeholder={t("receipt.table.p.price")}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>)  => setNewProductPrice(e.target.value)}/>
-                                        <label htmlFor="productPrice">Price</label>
+                                        <label htmlFor="productPrice">{t("receipt.table.p.price")}</label>
                                     </Form.Floating>
                                 </td>
                                 <td>{user.name}</td>
                                 <td>{user.name}</td>
-                                {/*<td><Button variant="danger">Eat</Button></td>
-                                <td><Button variant="warning">Pay</Button></td>*/}
                             </tr>
                         </tbody>
 
                     </Table>
                     <Button variant="success"
-                        onClick={ (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => newProduct()}>Add item</Button>
+                        onClick={ (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => newProduct()}>{t("receipt.table.b.add_item")}</Button>
 
 
 
@@ -307,6 +303,7 @@ const Receipt = () : JSX.Element => {
 
 const UserSettlementTable = () : JSX.Element => {
 
+    const { t } = useTranslation()
     const settlement: Settlement = useSelector((state: any) => state.receipt.userSettlement)
 
     const tbody = () : JSX.Element => {
@@ -325,7 +322,7 @@ const UserSettlementTable = () : JSX.Element => {
         } else {
             return (
                 <tr>
-                    <td colSpan={3}>Have no debts</td>
+                    <td colSpan={3}>{t("settlement.table.no_debts")}</td>
                 </tr>
             )
         }
@@ -334,13 +331,13 @@ const UserSettlementTable = () : JSX.Element => {
 
     return (<>
         <Container>
-            <h1 style={{marginTop: '20px'}}>Settlemet</h1>
+            <h1 style={{marginTop: '20px'}}>{t("settlement.h.settlement")}</h1>
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>Debtor</th>
-                        <th>Recepient</th>
-                        <th>Amount</th>
+                        <th>{t("settlement.table.h.debtor")}</th>
+                        <th>{t("settlement.table.h.recepient")}</th>
+                        <th>{t("settlement.table.h.amount")}</th>
                     </tr>
                 </thead>
 

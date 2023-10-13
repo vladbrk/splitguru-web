@@ -4,8 +4,11 @@ import { Container, Table } from 'react-bootstrap'
 
 import Settlement from '../store/reducers/Settlement'
 import Debt from '../store/reducers/Debt'
+import { useTranslation } from 'react-i18next'
 
 const SettlementComp = () : JSX.Element => {
+
+    const { t } = useTranslation()
 
     const settlement: Settlement = useSelector((state: any) => state.receipt.settlement)
 
@@ -25,7 +28,7 @@ const SettlementComp = () : JSX.Element => {
             } else {
                 return (
                     <tr>
-                        <td colSpan={3}>Have no debts</td>
+                        <td colSpan={3}>{t("settlement.table.no_debts")}</td>
                     </tr>
                 )
             }
@@ -33,13 +36,13 @@ const SettlementComp = () : JSX.Element => {
 
     return (<>
         <Container>
-            <h1 style={{marginTop: '20px'}}>Settlemet</h1>
+            <h1 style={{marginTop: '20px'}}>{t("settlement.h.settlement")}</h1>
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>Debtor</th>
-                        <th>Recepient</th>
-                        <th>Amount</th>
+                        <th>{t("settlement.table.h.debtor")}</th>
+                        <th>{t("settlement.table.h.recepient")}</th>
+                        <th>{t("settlement.table.h.amount")}</th>
                     </tr>
                 </thead>
                 <tbody>
