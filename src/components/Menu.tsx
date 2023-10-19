@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Nav, Container, Badge, Button } from 'react-bootstrap'
+import { Navbar, Nav, Container, Col, Row, Badge, Button } from 'react-bootstrap'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import logo from '../img/split_guru_pt_small_logo.png';
@@ -9,6 +9,7 @@ import Room from '../store/reducers/Room'
 import axios from 'axios'
 import { baseUrl } from '../settings/index'
 import { useTranslation } from 'react-i18next'
+import './menu.css'
 
 const Menu = () : JSX.Element => {
 
@@ -58,21 +59,33 @@ const Menu = () : JSX.Element => {
                         <Nav.Link onClick={() => { navigate("/bill/members") }}>{t("menu.members")}</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
-                <Badge bg="info">
+                {/*<Badge bg="info" >
                     <div style={{fontSize: '9px', textAlign: 'left', color: '#3A424C'}}>user</div>
-                    <div>{ user.name }</div>
+                    <div></div>
                 </Badge>
-                <span>&nbsp;</span>
-                <Badge bg="info">
-                    <div style={{fontSize: '9px', textAlign: 'left', color: '#3A424C'}}>room</div>
-                    <div>{ room.room }</div>
-                    <Button variant="outline-primary"
-                        size="sm"
-                        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => generatePin()}>Share</Button>
-                </Badge>
+                <span>&nbsp;</span>*/}
 
-                    <Button variant="outline-primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => changeLang('ru')}>Рус</Button>
-                    <Button variant="outline-primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => changeLang('en')}>En</Button>
+                <Row>
+                    <Col md={8}>
+
+                        <Button variant="info"
+                            className="share share__button"
+                            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => generatePin()}>
+                            <div className="share share__icon">
+                                &#11187;
+                            </div>
+                            <div className="share share__caption">
+                                <div className="share share__caption--user">{ user.name }</div>
+                                <div className="share share__caption--room">{ room.room }</div>
+                            </div>
+                        </Button>
+
+                    </Col><Col md={2}>
+                        <Button size="sm" variant="outline-primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => changeLang('ru')}>Рус</Button>
+                    </Col><Col md={2}>
+                        <Button size="sm" variant="outline-primary" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => changeLang('en')}>En</Button>
+                    </Col>
+                </Row>
             </Container>
         </Navbar>
         <Outlet/>

@@ -17,6 +17,7 @@ import {
 import axios from 'axios'
 import { baseUrl } from '../settings/index'
 import { useTranslation } from 'react-i18next'
+import './receipt.css'
 
 const Receipt = () : JSX.Element => {
 
@@ -134,7 +135,7 @@ const Receipt = () : JSX.Element => {
     }
 
 
-    const action = (product: Product, person: Person, payer: boolean) => {
+    const renderActionButton = (product: Product, person: Person, payer: boolean) => {
 
         let exists = true
         if (payer) {
@@ -146,9 +147,11 @@ const Receipt = () : JSX.Element => {
             { exists ?
                 <Button variant="danger"
                     size="sm"
+                    className="receipt receipt__action-button"
                     onClick={ (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => removePerson(e, product, person, payer)}>-</Button>
                 : <Button variant="success"
                     size="sm"
+                    className="receipt receipt__action-button"
                     onClick={ (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => addPerson(e, product, person, payer)}>+</Button>
             }
         </>)
@@ -238,8 +241,9 @@ const Receipt = () : JSX.Element => {
                         </p>
                         <hr />
                         <div className="d-flex justify-content-end">
-                          <Button onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => setShowAlert(false)} variant="outline-success">
-                            Got it!
+                          <Button onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => setShowAlert(false)}
+                            variant="outline-success">
+                            {t("receipt.alert.c.ok")}
                           </Button>
                         </div>
                       </Alert>
@@ -258,8 +262,8 @@ const Receipt = () : JSX.Element => {
                                 <tr key={ p.id } onClick={(e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => { showEditProductModal(p) }}>
                                     <td>{ p.name }</td>
                                     <td>{ p.price }</td>
-                                    <td>{ toString(p.payers)} {action(p, user, true) }</td>
-                                    <td>{ toString(p.consumers)} {action(p, user, false) }</td>
+                                    <td>{renderActionButton(p, user, true) }<div className="receipt receipt__action-caption">{ toString(p.payers)}</div></td>
+                                    <td>{renderActionButton(p, user, false) }<div className="receipt receipt__action-caption">{ toString(p.consumers)}</div></td>
                                 </tr>
                             )
                         })}

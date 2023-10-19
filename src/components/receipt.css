@@ -1,0 +1,14 @@
+.receipt {
+
+}
+
+.receipt__action-button {
+    width: 30px;
+    float: right;
+    margin-right: 10px;
+}
+
+.receipt__action-caption {
+    text-align: left;
+    padding-left: 20px;
+}

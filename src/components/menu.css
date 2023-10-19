@@ -1,0 +1,29 @@
+.share {
+}
+
+.share__button {
+    width: 120px;
+}
+
+.share__icon {
+    float: right;
+    line-height: 9px;
+    font-size: 32px;
+}
+
+.share__caption {
+    margin-right: 40px;
+}
+
+.share__caption--user {
+    font-weight: bold;
+    font-size: 10px;
+    text-align: left;
+    color: #3A424C;
+    line-height: 9px;
+}
+
+.share__caption--room {
+    color: #ffffff;
+    line-height: 9px;
+}
